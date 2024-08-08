@@ -1,75 +1,55 @@
-# asp.net test
-ASP.NET test yayasan peneraju
+1. Set Up the Project
+Create a New ASP.NET MVC Project:
 
+Open Visual Studio and create a new ASP.NET Web Application (.NET Framework).
+Select the MVC template and click Create.
 
-1) Setting Up the Database
+Install MySQL Data Provider:
+Install the MySql.Data and MySql.Data.EntityFramework NuGet packages.
 
-Create a database and table to store survey response
+2. Configure MySQL Database
+Create MySQL Database:
+Use MySQL Workbench or any MySQL client to create a database, e.g., feedback_db.
+Create Table:
+sql
+Copy code
+CREATE TABLE Feedback (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    Age INT NOT NULL,
+    Document LONGBLOB,
+    FeedbackType ENUM('Positive', 'Negative') NOT NULL,
+    ServiceUsed SET('Service 1', 'Service 2', 'Service 3') NOT NULL,
+    AdditionalComment TEXT
 
-Database :
-
-CREATE DATABASE feedback_survey;
-
-USE feedback_survey;
-
-CREATE TABLE feedback (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    age INT NOT NULL,
-    document VARCHAR(255),
-    feedback_type ENUM('Positive', 'Negative') NOT NULL,
-    services SET('Service1', 'Service2', 'Service3'),
-    comments TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-2) ASP.NET MVC Application Setup
+3.Configure Entity Framework
+ 1. Add Entity Framework Connection String:
+In Web.config, add the connection string for MySQL:
+xml
+Copy code
+<connectionStrings>
+    <add name="FeedbackDbContext" 
+         connectionString="server=localhost;database=feedback_db;uid=root;pwd=password;" 
+         providerName="MySql.Data.MySqlClient" />
+</connectionStrings>
+2. Create the Entity Model:
+In Models folder, create Feedback.cs
 
-3)
-Step 1: Create a New ASP.NET MVC Project
--Open Visual Studio and create new ASP.NET Core Web Application.
--CHoose the MVC template
+3. Create DbContext
+   IN 'Models' folder, create
+   'FeedbackDBContext.cs':
 
-Step 2 Install Necessary Pakages
+4. Create the survey form
+   1. Create Controller
+   2. Create Views
+      - Create.cshtml
+      - Index.cshtml
+      - Edit.cshtml
+      - Delete.cshtml
 
-For MYSQL: 
-
-dotnet add package MySql.Data
-dotnet add package Pomelo.EntityFrameworkCore.MySql
-
-Step 3 : Define the Model
-Models/Feedback.cs
-
-Step 4 : Set up the Database Context
-Data/ApplicationDbCOntext.cs
-
-Step5: COnfigure the database in 'Startup.cs'
-For MySQL :
-
-public void ConfigureServices(IServiceCollection services)
-{
-    services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
-            new MySqlServerVersion(new Version(8, 0, 21))));
-    services.AddControllersWithViews();
-}
-
-appsettings.json
-
-For MySQL:
-
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=feedback_survey;User=root;Password=yourpassword;"
-  }
-}
-
-Step 6 : Create the COntroller
-Controleer/FeedbackController.cs
-
-Step 7 : Create the views
-Views/Feedback/INdex.cshtml
-Views/Feedback/Create.cshtml
-
-
+5. Run and Test the application
+   1. Build the solution
+   2. Run the application
